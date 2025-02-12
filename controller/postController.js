@@ -17,9 +17,11 @@
 // In Show e Destroy, controllare se il parametro si riferisce ad un post esistente, in caso contrario, rispondere con uno stato 404 e un messaggio d’errore,
 // sempre in formato JSON.
 
+//Richiamo l'array di oggetti presente nel file posts
 const posts = require("../data/posts");
 
 
+//Creo le diverse funzioni da far eseguire succesivamente al server
 function index(req, res) {
     res.json(posts)
 };
@@ -57,7 +59,7 @@ function destroy(req, res) {
     res.sendStatus(204)
 };
 
-
+//Esportazione
 module.exports = { index, show, store, update, modify, destroy }
 
 
