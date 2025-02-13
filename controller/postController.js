@@ -22,7 +22,10 @@ const posts = require("../data/posts");
 
 //Creo le diverse funzioni da far eseguire succesivamente al server
 function index(req, res) {
-    res.json(posts)
+    // res.json(posts)
+    if (req.params.tags) {
+        res.json(posts.find((element) => element.tags = req.params.tags))
+    }
 };
 
 function show(req, res) {
@@ -59,7 +62,35 @@ function store(req, res) {
 };
 
 function update(req, res) {
-    res.send("Modifica integrale del post n." + req.params.id)
+
+    //Creo id dinamico in base alla richiesta
+    const id = parseInt(req.params.id);
+
+    //rilevo il post attraverso l'id inserito nella richiesta
+    const post = posts.find((post) => post.id === id);
+
+    //Creo condizione: se non c'è alcun oggetto con l'id inserito,
+    //restituisco messaggio di errore
+    if(!post){
+        res.status(404);
+
+        return res.json({
+            error: "Not found",
+            message: "Post non trovato"
+        })
+    }
+
+    //altrimenti modifico l'oggetto con i parametri inseriti
+    post.title = req.body.title;
+    post.content = req.body.content;
+    post.image = req.body.image;
+    post.tags = req.body.tags;
+
+    console.log(posts)
+
+    //restituisco il post modificato
+    res.json(post)
+
 };
 
 function modify(req, res) {
