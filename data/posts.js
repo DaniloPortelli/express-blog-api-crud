@@ -45,3 +45,14 @@ const posts = [
   ];
   
   module.exports = posts;
+
+
+
+
+// {
+//   "id": 2,
+//   "title": "Crostata alla Marmellata",
+//   "content": "La crostata alla marmellata è uno dei dolci che più sa di casa. Quella che ti riporta indietro nel tempo, quando le mamme e le nonne la preparavano con amore, scegliendo marmellate fatte in casa o dei frutti freschi della stagione. La pasta frolla croccante e burrosa abbraccia una generosa dose di marmellata, creando un equilibrio perfetto tra dolcezza e consistenza. È il dolce della domenica, ma anche quello da preparare in qualsiasi momento per far felici i propri cari. La crostata alla marmellata non ha mai bisogno di occasioni speciali per essere apprezzata.",   "image": "/imgs/posts/crostata-marmellata.avif",
+//   "tags": ["Dolci", "Torte", "Ricette semplici", "Ricette al forno"]
+// }
+  

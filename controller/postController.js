@@ -20,7 +20,6 @@
 //Richiamo l'array di oggetti presente nel file posts
 const posts = require("../data/posts");
 
-
 //Creo le diverse funzioni da far eseguire succesivamente al server
 function index(req, res) {
     res.json(posts)
@@ -32,8 +31,31 @@ function show(req, res) {
     }
 };
 
+
 function store(req, res) {
-    res.send("Creazione di un nuovo post")
+
+    //Creo id dinamico a partire dall'ultimo presente nell'array posts
+    const dinamicId = posts[posts.length - 1].id + 1;
+
+    //Creo nuovo oggetto post che recupererà le informazioni dai dati ricevuti
+    const newPost = {
+        id: dinamicId,
+        title: req.body.title,
+        content: req.body.content,
+        image: req.body.image,
+        tags: req.body.tags
+    };
+
+    //Aggiungo il nuovo post all'array posts
+    posts.push(newPost);
+
+    console.log(posts);
+
+    //restituisco status corretto
+    res.sendStatus(201);
+
+    //restituisco nuovo post in formato json
+    res.json(newPost);
 };
 
 function update(req, res) {
@@ -44,7 +66,6 @@ function modify(req, res) {
     res.send("Modifica parziale del post n." + req.params.id)
 };
 
-// Destroy dovrà eliminare un singolo post dalla lista, stampare nel terminale (console.log) la lista aggiornata, e rispondere con uno stato 204 e nessun contenuto.
 
 function destroy(req, res) {
     const id = parseInt(req.params.id)
