@@ -1,7 +1,5 @@
 
 
-
-
 //Richiamo l'array di oggetti presente nel file posts
 const posts = require("../data/posts");
 
