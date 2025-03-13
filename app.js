@@ -1,6 +1,8 @@
 //variabile per richiamare le funzionalità di express
 const express = require("express");
 
+const connection = require("./data/posts_db")
+
 //Variabile per creare l'istanza di express
 const app = express();
 

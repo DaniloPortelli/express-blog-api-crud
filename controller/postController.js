@@ -4,19 +4,36 @@
 
 //Richiamo l'array di oggetti presente nel file posts
 const posts = require("../data/posts");
+const connection = require("../data/posts_db");
 
 //Creo le diverse funzioni da far eseguire succesivamente al server
 function index(req, res) {
-    res.json(posts)
-    if (req.params.tags) {
-        res.json(posts.find((element) => element.tags = req.params.tags))
-    }
+    // res.json(posts)
+    // if (req.params.tags) {
+    //     res.json(posts.find((element) => element.tags = req.params.tags))
+    // }
+
+    const sql = "SELECT * FROM posts";
+
+    connection.query(sql, (err, results) => {
+        if (err) return res.status(500).json({ error: "Database query failed" });
+        res.json(results);
+    })
 };
 
 function show(req, res) {
-    if (req.params.id) {
-        res.json(posts.find((element) => element.id = req.params.id))
-    }
+    // if (req.params.id) {
+    //     res.json(posts.find((element) => element.id = req.params.id))
+    // }
+    const id = parseInt(req.params.id)
+
+    const sql = "SELECT * FROM posts WHERE id = ?";
+
+    connection.query(sql, [id], (err, results) => {
+        if (err) return res.status(500).json({ error: "Database query failed" });
+        if (results.length === 0) return res.status(404).json({ error: "Post not found" });
+        res.json(results[0]);
+    })
 };
 
 
@@ -56,7 +73,7 @@ function update(req, res) {
 
     //Creo condizione: se non c'è alcun oggetto con l'id inserito,
     //restituisco messaggio di errore
-    if(!post){
+    if (!post) {
         res.status(404);
 
         return res.json({
@@ -85,15 +102,26 @@ function modify(req, res) {
 
 function destroy(req, res) {
     const id = parseInt(req.params.id)
-    filteredPost = posts;
-    if (id) {
-        let postToDelete = posts.find((post) => post.id === id);
-        let indexPostToDelete = posts.indexOf(postToDelete)
-        filteredPost.splice((indexPostToDelete), 1)
 
-        console.log(filteredPost)
-    }
-    res.sendStatus(204)
+    // filteredPost = posts;
+    // if (id) {
+    //     let postToDelete = posts.find((post) => post.id === id);
+    //     let indexPostToDelete = posts.indexOf(postToDelete)
+    //     filteredPost.splice((indexPostToDelete), 1)
+
+    //     console.log(filteredPost)
+    // }
+    // res.sendStatus(204)
+
+
+    const sql = "DELETE FROM posts WHERE id = ?";
+
+    connection.query(sql, [id], (err) => {
+        if (err) return res.status(500).json({
+            error: "Database query error"
+        });
+        res.sendStatus(204)
+    })
 };
 
 //Esportazione
